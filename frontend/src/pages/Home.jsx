@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import WorkoutForm from "../components/WorkoutForm"
 
 // components
 import WorkoutDetails from "../components/WorkoutDetails"
@@ -31,6 +32,7 @@ const Home = () => {
           <WorkoutDetails workout={workout} key={workout._id} />
         ))}
       </div>
+      <WorkoutForm/>
     </div>
   )
 }
