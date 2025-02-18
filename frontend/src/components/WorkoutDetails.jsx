@@ -1,15 +1,23 @@
 import PropTypes from 'prop-types';
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext'; 
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import {useAuthContext} from "../hooks/useAuthContext"
 
 
 const WorkoutDetails = ({ workout }) => {
   const {dispatch} = useWorkoutsContext()
+  const{user}=useAuthContext()
   if (!workout) return null; // Prevent rendering if workout is null
   
   const handleClick = async ()=>{
+    if(!user){
+      return
+    }
     const response = await fetch('http://localhost:5000/api/workouts/'+ workout._id,{
-      method: 'DELETE'
+      method: 'DELETE',
+      headers:{
+        'Authorization': `Bearer ${user.token}`
+      }
     })
     const json = await response.json()
     if (response.ok){
