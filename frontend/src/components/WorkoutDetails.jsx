@@ -1,8 +1,19 @@
 import PropTypes from 'prop-types';
-
+import { useWorkoutsContext } from '../hooks/useWorkoutsContext'; 
 const WorkoutDetails = ({ workout }) => {
+  const {dispatch} = useWorkoutsContext()
   if (!workout) return null; // Prevent rendering if workout is null
+  
+  const handleClick = async ()=>{
+    const response = await fetch('http://localhost:5000/api/workouts/'+ workout._id,{
+      method: 'DELETE'
+    })
+    const json = await response.json()
+    if (response.ok){
+          dispatch({type:'DELETE_WORKOUT',payload:json})
+    }
 
+  }
   return (
     <div className="workout-details">
       <h4>{workout.title}</h4>
@@ -11,6 +22,7 @@ const WorkoutDetails = ({ workout }) => {
       {workout.createdAt && (
         <p>{new Date(workout.createdAt).toLocaleString()}</p>
       )}
+      <span onClick={handleClick}>Delete</span>
     </div>
   );
 };
