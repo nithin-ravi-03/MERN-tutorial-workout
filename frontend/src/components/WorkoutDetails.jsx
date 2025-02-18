@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext'; 
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+
+
 const WorkoutDetails = ({ workout }) => {
   const {dispatch} = useWorkoutsContext()
   if (!workout) return null; // Prevent rendering if workout is null
@@ -19,10 +22,8 @@ const WorkoutDetails = ({ workout }) => {
       <h4>{workout.title}</h4>
       <p><strong>Load (kg): </strong>{workout.load}</p>
       <p><strong>Number of reps: </strong>{workout.reps}</p>
-      {workout.createdAt && (
-        <p>{new Date(workout.createdAt).toLocaleString()}</p>
-      )}
-      <span onClick={handleClick}>Delete</span>
+      <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p>
+      <span className="material-symbols-outlined" onClick={handleClick}>Delete</span>
     </div>
   );
 };
